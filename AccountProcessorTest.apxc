@@ -1,0 +1,20 @@
+@isTest
+public class AccountProcessorTest {
+    @isTest
+    public static void testAccountsCount(){
+        Account acc = new Account(Name='Test Ac1');
+        insert acc;
+
+        Contact cont1 = new Contact(FirstName='TestFN', LastName='TestLN', AccountId=acc.Id);
+        insert cont1;
+        List<Id> lstAccId = new List<Id>();
+        lstAccId.add(acc.Id);
+
+        Test.startTest();
+        AccountProcessor.countContacts(lstAccId);
+        Test.stopTest();
+
+        Account updateAcc = [Select Number_Of_Contacts__c from Account Where Id =: acc.Id LIMIT 1];
+        System.assetEquals(1, Integer.valueOf(updateAcc.Number_Of_Contacts__c));
+    }
+}
